@@ -287,9 +287,8 @@
   grid-column-gap: 15px;
 }
 
-.chat__title p {
-  font-size: 16px;
-  font-weight: normal;
+.chat__title span {
+  margin-top: 6px;
 }
 
 .chat__title img {
@@ -325,6 +324,21 @@
   flex-direction: column;
   padding: 0 20px;
   overflow-y: scroll;
+  width: 850px;
+}
+
+.chat__message__list__empty {
+  grid-area: chat__message__list;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  overflow-y: scroll;
+  width: 850px;
+}
+
+.chat__message__list__empty {
+  text-align: center;
+  margin-top: 50px;
 }
 
 .message__row {
@@ -417,6 +431,7 @@
 }
 
 .chat__form {
+  position: relative;
   display: grid;
   grid: 51px / 32px 1fr;
   align-content: center;
@@ -440,6 +455,18 @@
 
 .chat__form input:focus {
   border: 1.5px solid #1a73e8;
+}
+
+.chat__form .fa {
+  position: absolute;
+  right: 0;
+  margin-right: 40px;
+  padding: 6px 10px 10px 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  border-radius: 100%;
+  cursor: pointer;
 }
 
 .login_page {
