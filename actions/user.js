@@ -11,7 +11,7 @@ export const getUser = username => {
         .catch(err => console.log(err));
 }
 
-export const getCurrentUser = friendId => {
+export const getAnotherUser = friendId => {
     return fetch(`${API}/users?userId=${friendId}`, {
         method: 'GET',
     })

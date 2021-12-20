@@ -38,8 +38,8 @@ function MessageBoard({ message, own, user }) {
                     ) : (
                         <div className="message__row other__message">
                             <div className="message__content">
-                                <img src={user.profilePicture} alt="" />
-                                <div className="message__username">Dang Lai</div>
+                                <img src={users?.profilePicture ? PF + users.profilePicture : PF + "users/noAvatar.png"} alt="" />
+                                <div className="message__username">{users.firstName + users.lastName}</div>
                                 <div className="message__text">
                                     {message.text}
                                 </div>

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { getCurrentUser, getUser } from '../../actions/user'
+import { getAnotherUser } from '../../actions/user'
 
-function ChatTitle({ conversationId }) {
-    const [convInfo, setConvInfo] = useState([])
+function ChatTitle({ conversations, currentUser }) {
+    const [convInfo, setConvInfo] = useState([]);
+    const PF = process.env.PUBLIC_FOLDER;
 
     const loadConvInfo = () => {
-        getCurrentUser(conversationId).then(data => {
-            console.log(data)
+        // const friendId = conversations.members.find((m) => m !== currentUser)
+        getAnotherUser(currentUser).then(data => {
             if (data.error) {
                 console.log(data.error);
             }
@@ -26,7 +27,7 @@ function ChatTitle({ conversationId }) {
                 {convInfo && (
                     <>
                         <div className="chat__title">
-                            <img src="https://s120-ava-grp-talk.zadn.vn/d/f/e/c/2/120/fc0d636c2bc2e9a2602246ec2771a827.jpg" alt="" />
+                            <img src={PF + convInfo.profilePicture} alt="" title={convInfo.firstName + " " + convInfo.lastName} alt="" />
                             <span>{convInfo.firstName + " " + convInfo.lastName}</span>
                             <i className="fa fa-user-plus" data-bs-toggle="modal" data-bs-target="#modalAddMember"></i>
                         </div>

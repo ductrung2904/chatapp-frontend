@@ -469,6 +469,10 @@
   cursor: pointer;
 }
 
+.chat__form .fa:hover {
+  color: blue;
+}
+
 .login_page {
   background: #f6f5f7;
   display: flex;

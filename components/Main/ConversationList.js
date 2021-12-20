@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getConversation } from '../../actions/conversation';
-import { getCurrentUser } from '../../actions/user';
+import { getAnotherUser } from '../../actions/user';
 
 function ConversationList({ conversation, currentUser }) {
     const [user, setUser] = useState(null);
@@ -8,8 +7,7 @@ function ConversationList({ conversation, currentUser }) {
 
     const loadConversation = () => {
         const friendId = conversation.members.find((m) => m !== currentUser)
-        getCurrentUser(friendId).then(data => {
-            console.log(data)
+        getAnotherUser(friendId).then(data => {
             if (data.error) {
                 console.log(data.error);
             }
