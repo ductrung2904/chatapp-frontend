@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { format } from "timeago.js"
-import { getUser } from '../../actions/user';
+import { getAnotherUser } from '../../actions/user';
 
 function MessageBoard({ message, own, user }) {
     const [users, setUsers] = useState(null);
     const PF = process.env.PUBLIC_FOLDER
 
     const loadConversation = () => {
-        getUser(user).then(data => {
+        getAnotherUser(user).then(data => {
             console.log(data)
             if (data.error) {
                 console.log(data.error);
@@ -25,11 +25,11 @@ function MessageBoard({ message, own, user }) {
         <>
             {users && (
                 <div>
-                    <div className="message__time">{format(message.createAt)}</div>
+                    <div className="message__time">{format(message.createdAt)}</div>
                     {own ? (
                         <div className="message__row you__message">
                             <div className="message__content">
-                                <div className="message__username">{users.firstName + users.lastName}</div>
+                                {/* <div className="message__username">{users.firstName + " " + users.lastName}</div> */}
                                 <div className="message__text">
                                     {message.text}
                                 </div>
@@ -39,7 +39,7 @@ function MessageBoard({ message, own, user }) {
                         <div className="message__row other__message">
                             <div className="message__content">
                                 <img src={users?.profilePicture ? PF + users.profilePicture : PF + "users/noAvatar.png"} alt="" />
-                                <div className="message__username">{users.firstName + users.lastName}</div>
+                                {/* <div className="message__username">{users.firstName + " " + users.lastName}</div> */}
                                 <div className="message__text">
                                     {message.text}
                                 </div>

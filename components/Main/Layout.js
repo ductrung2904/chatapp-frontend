@@ -9,7 +9,6 @@ import { isAuth } from '../../actions/auth'
 import Router from 'next/router'
 import { getConversation } from '../../actions/conversation'
 import { addMessage, getMessage } from '../../actions/message'
-import { getAnotherUser } from '../../actions/user'
 import { io } from "socket.io-client"
 
 function Layout() {
@@ -66,22 +65,6 @@ function Layout() {
         loadConversations();
     }, [user]);
 
-    // useEffect(() => {
-    //     const friendId = conv.members.find((m) => m !== user)
-    //     const loadMessageInfo = async () => {
-    //         getAnotherUser(friendId).then(data => {
-    //             console.log(data)
-    //             if (data.error) {
-    //                 console.log(data.error);
-    //             }
-    //             else {
-    //                 setMessageInfo(data);
-    //             }
-    //         })
-    //     }
-    //     loadMessageInfo();
-    // }, [user])
-
     useEffect(() => {
         const loadMessages = async () => {
             getMessage(currentChat?._id).then(data => {
@@ -114,19 +97,24 @@ function Layout() {
 
 
         addMessage(message).then(data => {
-            setMessages([...messages, data]);
-            setNewMessage("");
+            if (data.error) {
+                console.log(data.error);
+            }
+            else {
+                setMessages([...messages, data]);
+                setNewMessage("");
+            }
         })
     }
-
-    useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages])
 
     useEffect(() => {
         if (!isAuth())
             Router.push(`/`);
     }, [])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages])
 
     return (
         <div className="chat__container">
@@ -145,10 +133,12 @@ function Layout() {
                 <>
                     <ChatTitle conversations={conversations} currentUser={user} />
                     <div className="chat__message__list">
-                        {messages.map((m) => (
-                            <div ref={scrollRef}>
-                                <MessageBoard message={m} own={m.sender === user} conversation={conversations} currentUser={user} />
-                            </div>
+                        {messages.map((m, i) => (
+                            <>
+                                <MessageBoard key={i} message={m} own={m.sender === user} conversation={conversations} currentUser={user} />
+                                <div ref={scrollRef} styles={{ float: "left", clear: "both" }} />
+                            </>
+
                         ))}
                     </div>
                     <div className="chat__form">
@@ -161,6 +151,7 @@ function Layout() {
                             value={newMessage} />
                         <i className="fa fa-arrow-circle-up" onClick={handleSubmit}></i>
                     </div>
+
                 </>
             ) : (
                 <div className="chat__message__list__empty">
@@ -168,7 +159,6 @@ function Layout() {
                 </div>
             )
             }
-
         </div >
     )
 }
