@@ -28,7 +28,7 @@ function Layout() {
     const PF = process.env.PUBLIC_FOLDER;
 
     useEffect(() => {
-        socket.current = io("ws://localhost:5000");
+        socket.current = io("http://localhost:5000");
         socket.current.on("getMessage", (data) => {
             setArrivalMessage({
                 sender: data.senderId,
