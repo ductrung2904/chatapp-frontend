@@ -322,10 +322,12 @@
   grid-area: chat__message__list;
   display: flex;
   flex-direction: column;
-  padding: 0 20px;
+  /* padding: 0 20px; */
+  padding-left: 20px;
   margin: 0 auto;
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 850px;
+  scroll-behavior: smooth;
 }
 
 .chat__message__list__empty {
@@ -345,8 +347,9 @@
 .message__row {
   display: grid;
   grid-template-columns: 70%;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   margin-top: 10px;
+  padding-right: 20px;
 }
 
 .message__content {
@@ -382,12 +385,15 @@
   color: #777;
   text-align: center;
   margin-top: 10px;
+  margin-bottom: 22px;
+  margin-left: 20px;
 }
 
 .message__text {
   padding: 9px 14px;
   font-size: 1.6rem;
   margin-bottom: 5px;
+  height: 44px;
 }
 
 .message__username {

@@ -10,22 +10,19 @@ import Router from 'next/router'
 import { getConversation } from '../../actions/conversation'
 import { addMessage, getMessage } from '../../actions/message'
 import { io } from "socket.io-client"
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 function Layout() {
     const user = isAuth() && isAuth()._id;
     const username = isAuth() && isAuth().username;
-    // const conv = getConversation(user);
 
     const [currentChat, setCurrentChat] = useState(null);
     const [conversations, setConversations] = useState([]);
-    // const [messageInfo, setMessageInfo] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const socket = useRef();
     const scrollRef = useRef();
-
-    const PF = process.env.PUBLIC_FOLDER;
 
     useEffect(() => {
         socket.current = io("http://localhost:5000");
@@ -33,6 +30,7 @@ function Layout() {
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
+                type: data.type,
                 createdAt: Date.now()
             })
         })
@@ -84,6 +82,7 @@ function Layout() {
         const message = {
             sender: user,
             text: newMessage,
+            type: "Text",
             conversationId: currentChat._id
         }
 
@@ -92,7 +91,8 @@ function Layout() {
         socket.current.emit("sendMessage", {
             senderId: user,
             receiverId,
-            text: newMessage
+            text: newMessage,
+            type: "Text"
         })
 
 
@@ -105,6 +105,40 @@ function Layout() {
                 setNewMessage("");
             }
         })
+    }
+
+    const handleEnterSubmit = async (e) => {
+        if (e.key === "Enter" || e.key === "NumpadEnter") {
+            if (newMessage.replace(/\s/g, '')) {
+                e.preventDefault();
+                const message = {
+                    sender: user,
+                    text: newMessage,
+                    type: "Text",
+                    conversationId: currentChat._id
+                }
+
+                const receiverId = currentChat.members.find(member => member !== user);
+
+                socket.current.emit("sendMessage", {
+                    senderId: user,
+                    receiverId,
+                    text: newMessage,
+                    type: "Text"
+                })
+
+
+                addMessage(message).then(data => {
+                    if (data.error) {
+                        console.log(data.error);
+                    }
+                    else {
+                        setMessages([...messages, data]);
+                        setNewMessage("");
+                    }
+                })
+            }
+        }
     }
 
     useEffect(() => {
@@ -132,15 +166,13 @@ function Layout() {
             {currentChat ? (
                 <>
                     <ChatTitle conversations={conversations} currentUser={user} />
-                    <div className="chat__message__list">
+                    <ScrollToBottom className="chat__message__list">
                         {messages.map((m, i) => (
                             <>
                                 <MessageBoard key={i} message={m} own={m.sender === user} conversation={conversations} currentUser={user} />
-                                <div ref={scrollRef} styles={{ float: "left", clear: "both" }} />
                             </>
-
                         ))}
-                    </div>
+                    </ScrollToBottom>
                     <div className="chat__form">
                         <img src="../images/attachment.svg" alt="Add Attachment" />
                         <input
@@ -148,10 +180,10 @@ function Layout() {
                             type="text"
                             placeholder="type a message"
                             onChange={(e) => setNewMessage(e.target.value)}
-                            value={newMessage} />
-                        <i className="fa fa-arrow-circle-up" onClick={handleSubmit}></i>
+                            value={newMessage}
+                            onKeyPress={(e) => handleEnterSubmit(e)} />
+                        {newMessage.replace(/\s/g, '') && <i className="fa fa-arrow-circle-up" onClick={handleSubmit}></i>}
                     </div>
-
                 </>
             ) : (
                 <div className="chat__message__list__empty">

@@ -25,3 +25,10 @@ export const getMessage = conversationId => {
         })
         .catch(err => console.log(err));
 }
+
+// export const sendFile = () => {
+//     return fetch(`${API}/upload`,{
+//         method: 'POST',
+//         body: JSON.stringify
+//     })
+// }
