@@ -11,6 +11,7 @@ import { getConversation } from '../../actions/conversation'
 import { addMessage, getMessage } from '../../actions/message'
 import { io } from "socket.io-client"
 import ScrollToBottom from 'react-scroll-to-bottom';
+import { API } from '../../config'
 
 function Layout() {
     const user = isAuth() && isAuth()._id;
@@ -25,7 +26,7 @@ function Layout() {
     const scrollRef = useRef();
 
     useEffect(() => {
-        socket.current = io("http://localhost:5000");
+        socket.current = io(`${API}`);
         socket.current.on("getMessage", (data) => {
             setArrivalMessage({
                 sender: data.senderId,
