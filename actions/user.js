@@ -1,10 +1,8 @@
 import fetch from 'isomorphic-fetch'
 import { API } from '../config'
 
-const baseUrl = process.env.BASE_URL
-
 export const getUser = username => {
-    return fetch(`${baseUrl}/users?username=${username}`, {
+    return fetch(`${API}/users?username=${username}`, {
         method: 'GET',
     })
         .then(response => {
@@ -14,7 +12,7 @@ export const getUser = username => {
 }
 
 export const getAnotherUser = friendId => {
-    return fetch(`${baseUrl}/users?userId=${friendId}`, {
+    return fetch(`${API}/users?userId=${friendId}`, {
         method: 'GET',
     })
         .then(response => {

@@ -1,10 +1,8 @@
 import fetch from 'isomorphic-fetch'
 import { API } from '../config'
 
-const baseUrl = process.env.BASE_URL
-
 export const addConversation = conversation => {
-    return fetch(`${baseUrl}/conversation`, {
+    return fetch(`${API}/conversation`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -19,7 +17,7 @@ export const addConversation = conversation => {
 }
 
 export const getConversation = id => {
-    return fetch(`${baseUrl}/conversation/${id}`, {
+    return fetch(`${API}/conversation/${id}`, {
         method: 'GET',
     })
         .then(response => {
