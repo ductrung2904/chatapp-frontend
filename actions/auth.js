@@ -2,8 +2,10 @@ import fetch from 'isomorphic-fetch'
 import cookie from 'js-cookie'
 import { API } from '../config'
 
+const baseUrl = process.env.BASE_URL
+
 export const register = user => {
-    return fetch(`${API}/register`, {
+    return fetch(`${baseUrl}/register`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -18,7 +20,7 @@ export const register = user => {
 };
 
 export const login = user => {
-    return fetch(`${API}/login`, {
+    return fetch(`${baseUrl}/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -37,7 +39,7 @@ export const logout = next => {
     removeLocalStorage('user');
     next();
 
-    return fetch(`${API}/logout`, {
+    return fetch(`${baseUrl}/logout`, {
         method: 'GET'
     })
         .then(response => {
