@@ -18,7 +18,7 @@ export const register = user => {
 };
 
 export const login = user => {
-    return fetch(`${API}/login`, {
+    return fetch(`/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
