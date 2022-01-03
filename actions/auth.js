@@ -1,9 +1,9 @@
-import fetch from 'isomorphic-fetch'
+// import fetch from 'isomorphic-fetch'
 import cookie from 'js-cookie'
 import { API } from '../config'
 
 export async function register(user) {
-    return fetch(`${API}/register`, {
+    const res = await fetch(`${API}/register`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -11,14 +11,12 @@ export async function register(user) {
         },
         body: JSON.stringify(user)
     })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
+    const data = await res.json()
+    return data
 };
 
 export async function login(user) {
-    return fetch(`/login`, {
+    const res = await fetch(`/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -26,10 +24,8 @@ export async function login(user) {
         },
         body: JSON.stringify(user)
     })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
+    const data = await res.json()
+    return data
 };
 
 export const logout = next => {
@@ -37,13 +33,11 @@ export const logout = next => {
     removeLocalStorage('user');
     next();
 
-    return fetch(`${API}/logout`, {
+    const res = await fetch(`${API}/logout`, {
         method: 'GET'
     })
-        .then(response => {
-            console.log('signout success');
-        })
-        .catch(err => console.log(err));
+    const data = await res.json()
+    return data
 };
 
 // set cookie
