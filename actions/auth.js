@@ -11,7 +11,7 @@ export async function register(user) {
         },
         body: JSON.stringify(user)
     })
-    const data = await res.json()
+    const data = res.json()
     return data
 };
 
@@ -24,7 +24,7 @@ export async function login(user) {
         },
         body: JSON.stringify(user)
     })
-    const data = await res.json()
+    const data = res.json()
     return data
 };
 
@@ -36,7 +36,7 @@ export const logout = next => {
     const res = await fetch(`${API}/logout`, {
         method: 'GET'
     })
-    const data = await res.json()
+    const data = res.json()
     return data
 };
 
