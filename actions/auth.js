@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import cookie from 'js-cookie'
 import { API } from '../config'
 
-export const register = user => {
+export async function register(user) {
     return fetch(`${API}/register`, {
         method: 'POST',
         headers: {
@@ -17,7 +17,7 @@ export const register = user => {
         .catch(err => console.log(err));
 };
 
-export const login = user => {
+export async function login(user) {
     return fetch(`${API}/login`, {
         method: 'POST',
         headers: {
