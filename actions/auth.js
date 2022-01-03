@@ -2,7 +2,7 @@
 import cookie from 'js-cookie'
 import { API } from '../config'
 
-export async function register(user) {
+export const register = async (user) => {
     const res = await fetch(`${API}/register`, {
         method: 'POST',
         headers: {
@@ -11,12 +11,12 @@ export async function register(user) {
         },
         body: JSON.stringify(user)
     })
-    const data = res.json()
+    const data = await res.json()
     return data
 };
 
-export async function login(user) {
-    const res = await fetch(`/login`, {
+export const login = async (user) => {
+    const res = await fetch(`${API}/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -24,11 +24,11 @@ export async function login(user) {
         },
         body: JSON.stringify(user)
     })
-    const data = res.json()
+    const data = await res.json()
     return data
 };
 
-export const logout = next => {
+export const logout = async (next) => {
     removeCookie('token');
     removeLocalStorage('user');
     next();
