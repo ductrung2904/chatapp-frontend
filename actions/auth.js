@@ -1,8 +1,8 @@
-import fetch from 'isomorphic-fetch'
+// import fetch from 'isomorphic-fetch'
 import cookie from 'js-cookie'
 import { API } from '../config'
 
-export async function register(user) {
+export const register = user => {
     return fetch(`${API}/register`, {
         method: 'POST',
         headers: {
@@ -17,7 +17,7 @@ export async function register(user) {
         .catch(err => console.log(err));
 };
 
-export async function login(user) {
+export const login = user => {
     return fetch(`${API}/login`, {
         method: 'POST',
         headers: {
