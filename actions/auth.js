@@ -1,12 +1,9 @@
 import fetch from 'isomorphic-fetch'
 import cookie from 'js-cookie'
-import { API } from '../config'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
+// import { API } from '../config'
 
 export const register = user => {
-    return fetch(`${publicRuntimeConfig.API_PRODUCTION}/register`, {
+    return fetch(`${process.env.API_PRODUCTION}/register`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -21,7 +18,7 @@ export const register = user => {
 };
 
 export const login = user => {
-    return fetch(`${publicRuntimeConfig.API_PRODUCTION}/login`, {
+    return fetch(`${process.env.API_PRODUCTION}/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -40,7 +37,7 @@ export const logout = next => {
     removeLocalStorage('user');
     next();
 
-    return fetch(`${publicRuntimeConfig.API_PRODUCTION}/logout`, {
+    return fetch(`${process.env.API_PRODUCTION}/logout`, {
         method: 'GET'
     })
         .then(response => {
