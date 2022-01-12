@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch'
 import cookie from 'js-cookie'
-// import { API } from '../config'
+import { API } from '../config'
 
 export const register = user => {
-    return fetch(`${process.env.API_PRODUCTION}/register`, {
+    return fetch(`${API}/register`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -18,7 +18,7 @@ export const register = user => {
 };
 
 export const login = user => {
-    return fetch(`${process.env.API_PRODUCTION}/login`, {
+    return fetch(`${API}/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -37,7 +37,7 @@ export const logout = next => {
     removeLocalStorage('user');
     next();
 
-    return fetch(`${process.env.API_PRODUCTION}/logout`, {
+    return fetch(`${API}/logout`, {
         method: 'GET'
     })
         .then(response => {
@@ -80,7 +80,7 @@ export const removeLocalStorage = key => {
         localStorage.removeItem(key);
     }
 };
-// autheticate user by pass data to cookie and localstorage
+// authenticate user by pass data to cookie and localstorage
 export const authenticate = (data, next) => {
     setCookie('token', data.token);
     setLocalStorage('user', data.user);
